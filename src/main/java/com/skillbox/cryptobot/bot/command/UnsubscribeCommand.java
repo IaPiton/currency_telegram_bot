@@ -34,7 +34,7 @@ public class UnsubscribeCommand implements IBotCommand {
         SendMessage answer = new SendMessage();
         answer.setChatId(message.getChatId());
         String setMessage = dataBase.deleteSubscribe(message);
-        try{
+        try {
             answer.setText(setMessage);
             absSender.execute(answer);
         } catch (TelegramApiException e) {

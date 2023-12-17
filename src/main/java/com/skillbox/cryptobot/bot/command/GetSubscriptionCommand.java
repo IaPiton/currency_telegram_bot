@@ -19,6 +19,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 public class GetSubscriptionCommand implements IBotCommand {
     private DataBase dataBase;
+
     @Override
     public String getCommandIdentifier() {
         return "get_subscription";
@@ -31,14 +32,15 @@ public class GetSubscriptionCommand implements IBotCommand {
 
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-       Double userSubscribers = dataBase.getUserSubscribers(message);
+        Double userSubscribers = dataBase.getUserSubscribers(message);
         SendMessage answer = new SendMessage();
         answer.setChatId(message.getChatId());
-        try{
-            if (userSubscribers == null){
+        try {
+            if (userSubscribers == null) {
                 answer.setText("Активные подписки отсутствуют");
-            }else {
-            answer.setText("Вы подписаны на стоимость биткоина " + userSubscribers + " USD");}
+            } else {
+                answer.setText("Вы подписаны на стоимость биткоина " + userSubscribers + " USD");
+            }
             absSender.execute(answer);
         } catch (TelegramApiException e) {
             log.error("Error occurred in /s/get_subscription command", e);

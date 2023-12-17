@@ -43,13 +43,14 @@ public class SubscribeCommand implements IBotCommand {
         try {
             setMessage = setMessage(message, arguments);
 
-        answer.setChatId(message.getChatId());
-        answer.setText(setMessage);
-        try {
-            absSender.execute(answer);
-        } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
-        } } catch (IOException e) {
+            answer.setChatId(message.getChatId());
+            answer.setText(setMessage);
+            try {
+                absSender.execute(answer);
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -62,7 +63,7 @@ public class SubscribeCommand implements IBotCommand {
             return "Текущая цена биткоина " + TextUtil.toString(service.getBitcoinPrice()) + " USD\n" +
                     "Новая подписка создана на стоимости " + priceUser + " USD";
         } catch (NumberFormatException e) {
-          return  "Некоректно введена сума подписки";
+            return "Некоректно введена сума подписки";
         }
     }
 }

@@ -12,8 +12,6 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 
-
-
 /**
  * Обработка команды начала работы с ботом
  */
@@ -21,7 +19,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @AllArgsConstructor
 @Slf4j
 public class StartCommand implements IBotCommand {
-private DataBase dataBase;
+    private DataBase dataBase;
+
     @Override
     public String getCommandIdentifier() {
         return "start";
