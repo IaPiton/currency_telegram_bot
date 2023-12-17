@@ -11,18 +11,36 @@ public class DataBase {
     @Autowired
     private SubscribersReposytory subscribersReposytory;
 
-    public void addUser (Message message){
+    public void addUser(Message message) {
         Long userId = message.getFrom().getId();
-        if(!subscribersReposytory.existsByUserId(userId)){
-        Subscribers subscribers = new Subscribers();
-        subscribers.setUserId(userId);
-        subscribersReposytory.saveAndFlush(subscribers);}
+        if (!subscribersReposytory.existsByUserId(userId)) {
+            Subscribers subscribers = new Subscribers();
+            subscribers.setUserId(userId);
+            subscribersReposytory.saveAndFlush(subscribers);
+        }
     }
 
-    public void addUserPrice(Message message, Integer priceUser) {
+    public void addUserSubscribers(Message message, Double priceUser) {
         Long userId = message.getFrom().getId();
         Subscribers subscribers = subscribersReposytory.findByUserId(userId);
         subscribers.setPrice(priceUser);
         subscribersReposytory.saveAndFlush(subscribers);
+    }
+
+    public Double getUserSubscribers(Message message) {
+        Long userId = message.getFrom().getId();
+        return subscribersReposytory.findByPrise(userId);
+    }
+
+    public String deleteSubscribe(Message message) {
+
+        Long userId = message.getFrom().getId();
+        Subscribers subscribers = subscribersReposytory.findByUserId(userId);
+        if (subscribers.getPrice() == null) {
+            return "Активные подписки отсутствуют";
+        }
+        subscribers.setPrice(null);
+        subscribersReposytory.saveAndFlush(subscribers);
+        return "Подписка отменена";
     }
 }

@@ -1,7 +1,6 @@
 package com.skillbox.cryptobot.bot.command;
 
-import com.skillbox.cryptobot.Model.Subscribers;
-import com.skillbox.cryptobot.Reposytory.SubscribersReposytory;
+
 import com.skillbox.cryptobot.utils.DataBase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.util.concurrent.ExecutionException;
+
 
 
 /**
@@ -22,7 +21,7 @@ import java.util.concurrent.ExecutionException;
 @AllArgsConstructor
 @Slf4j
 public class StartCommand implements IBotCommand {
-private DataBase dataBase = new DataBase();
+private DataBase dataBase;
     @Override
     public String getCommandIdentifier() {
         return "start";

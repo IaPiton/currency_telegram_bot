@@ -12,6 +12,6 @@ public class Subscribers {
     private Long UUID;
     @Column(name = "id")
     private Long userId;
-    private Integer price;
+    private Double price;
 
 }

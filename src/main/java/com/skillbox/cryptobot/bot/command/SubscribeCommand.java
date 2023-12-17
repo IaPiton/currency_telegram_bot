@@ -1,6 +1,6 @@
 package com.skillbox.cryptobot.bot.command;
 
-import com.skillbox.cryptobot.client.BinanceClient;
+
 import com.skillbox.cryptobot.service.CryptoCurrencyService;
 import com.skillbox.cryptobot.utils.DataBase;
 import com.skillbox.cryptobot.utils.TextUtil;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -25,7 +24,8 @@ import java.util.Arrays;
 @AllArgsConstructor
 public class SubscribeCommand implements IBotCommand {
     private final CryptoCurrencyService service;
-    private DataBase dataBase = new DataBase();
+    private DataBase dataBase;
+
     @Override
     public String getCommandIdentifier() {
         return "subscribe";
@@ -38,19 +38,31 @@ public class SubscribeCommand implements IBotCommand {
 
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        Integer priceUser = Integer.valueOf(Arrays.stream(arguments).findFirst().get());
-        dataBase.addUserPrice(message, priceUser);
         SendMessage answer = new SendMessage();
+        String setMessage = null;
+        try {
+            setMessage = setMessage(message, arguments);
+
         answer.setChatId(message.getChatId());
-        try{
-            answer.setText("Текущая цена биткоина " + TextUtil.toString(service.getBitcoinPrice()) + " USD\n" +
-                    "Новая подписка создана на стоимости " + priceUser + " USD");
+        answer.setText(setMessage);
+        try {
             absSender.execute(answer);
-        } catch (IOException e) {
+        } catch (TelegramApiException e) {
             throw new RuntimeException(e);
-        }catch (TelegramApiException e) {
-            log.error("Error occurred in /subscribeCommand command", e);
+        } } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
+    public String setMessage(Message message, String[] arguments) throws IOException {
+
+        try {
+            Double priceUser = Double.valueOf(Arrays.stream(arguments).findFirst().get());
+            dataBase.addUserSubscribers(message, priceUser);
+            return "Текущая цена биткоина " + TextUtil.toString(service.getBitcoinPrice()) + " USD\n" +
+                    "Новая подписка создана на стоимости " + priceUser + " USD";
+        } catch (NumberFormatException e) {
+          return  "Некоректно введена сума подписки";
+        }
     }
+}
