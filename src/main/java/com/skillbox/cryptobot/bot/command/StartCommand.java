@@ -1,7 +1,8 @@
 package com.skillbox.cryptobot.bot.command;
 
 
-import com.skillbox.cryptobot.utils.DataBase;
+
+import com.skillbox.cryptobot.utils.DataBaseUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @AllArgsConstructor
 @Slf4j
 public class StartCommand implements IBotCommand {
-    private DataBase dataBase;
+    private DataBaseUtil dataBaseUtil;
 
     @Override
     public String getCommandIdentifier() {
@@ -33,7 +34,7 @@ public class StartCommand implements IBotCommand {
 
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        dataBase.addUser(message);
+        dataBaseUtil.addUser(message);
         SendMessage answer = new SendMessage();
         answer.setChatId(message.getChatId());
         answer.setText("""

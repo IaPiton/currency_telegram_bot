@@ -1,7 +1,7 @@
 package com.skillbox.cryptobot.bot.command;
 
-import com.skillbox.cryptobot.utils.DataBase;
-import com.skillbox.cryptobot.utils.TextUtil;
+
+import com.skillbox.cryptobot.utils.DataBaseUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,14 +11,12 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.io.IOException;
-import java.util.Arrays;
 
 @Service
 @Slf4j
 @AllArgsConstructor
 public class GetSubscriptionCommand implements IBotCommand {
-    private DataBase dataBase;
+    private DataBaseUtil dataBaseUtil;
 
     @Override
     public String getCommandIdentifier() {
@@ -32,7 +30,7 @@ public class GetSubscriptionCommand implements IBotCommand {
 
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        Double userSubscribers = dataBase.getUserSubscribers(message);
+        Double userSubscribers = dataBaseUtil.getUserSubscribers(message);
         SendMessage answer = new SendMessage();
         answer.setChatId(message.getChatId());
         try {

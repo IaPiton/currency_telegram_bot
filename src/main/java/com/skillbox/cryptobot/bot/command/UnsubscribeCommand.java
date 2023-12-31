@@ -1,6 +1,6 @@
 package com.skillbox.cryptobot.bot.command;
 
-import com.skillbox.cryptobot.utils.DataBase;
+import com.skillbox.cryptobot.utils.DataBaseUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Slf4j
 @AllArgsConstructor
 public class UnsubscribeCommand implements IBotCommand {
-    private DataBase dataBase;
+    private DataBaseUtil dataBaseUtil;
 
     @Override
     public String getCommandIdentifier() {
@@ -33,7 +33,7 @@ public class UnsubscribeCommand implements IBotCommand {
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         SendMessage answer = new SendMessage();
         answer.setChatId(message.getChatId());
-        String setMessage = dataBase.deleteSubscribe(message);
+        String setMessage = dataBaseUtil.deleteSubscribe(message);
         try {
             answer.setText(setMessage);
             absSender.execute(answer);
